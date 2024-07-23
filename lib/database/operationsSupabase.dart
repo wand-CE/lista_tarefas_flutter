@@ -47,9 +47,12 @@ class OperationsSupaBaseDB {
   }
 
   Future<List<dynamic>> getTarefas() async {
+    final User? user = supabase.auth.currentUser;
+
     final data = await supabase
         .from('tarefa')
         .select()
+        .eq('id_user', '${user?.id}')
         .order('finished', ascending: true);
 
     return data;
